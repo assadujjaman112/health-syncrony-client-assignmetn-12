@@ -1,23 +1,34 @@
 import { Link } from "react-router-dom";
 import "../Login/Login.css";
 import { FcGoogle } from "react-icons/fc";
+import { useContext } from "react";
+import { AuthContext } from "../../Providers/AuthProvider";
 const Login = () => {
+  const { signIn } = useContext(AuthContext);
 
-    const handleLogin = (event)=> {
-        event.preventDefault();
+  const handleLogin = (event) => {
+    event.preventDefault();
 
-        const form = event.target;
+    const form = event.target;
 
-        const email = form.email.value;
-        const password = form.password.value;
-        console.log(email,password)
+    const email = form.email.value;
+    const password = form.password.value;
+    console.log(email, password);
 
-    }
-    
+    signIn(email, password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   return (
     <div className="hero min-h-screen bg-black login bg-opacity-80 ">
       <div className="card shrink-0 w-4/5 md:w-1/2 lg:w-1/3  shadow-2xl bg-base-100">
+        <h1 className="text-center text-3xl font-bold mt-5">Login Now!</h1>
         <form onSubmit={handleLogin} className="card-body">
           <div className="form-control">
             <label className="label">
