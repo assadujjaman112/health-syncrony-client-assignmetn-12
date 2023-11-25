@@ -1,14 +1,21 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { AuthContext } from "../../Providers/AuthProvider";
+import Swal from "sweetalert2";
 
-const image_hosting_key=import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 const SignUp = () => {
   const [passError, setPassError] = useState("");
   const [district, setDistrict] = useState();
   const [upazilla, setUpazilla] = useState();
+  const axiosPublic = useAxiosPublic();
+  const {createUser, updateUserProfile} = useContext(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -20,7 +27,6 @@ const SignUp = () => {
       .then((res) => res.json())
       .then((data) => {
         setDistrict(data);
-        console.log(data);
       });
   }, []);
 
@@ -32,12 +38,40 @@ const SignUp = () => {
       });
   }, []);
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     setPassError("");
     if (data.password !== data.confirm) {
       return setPassError("Confirm password is wrong.");
     }
-    console.log(data);
+    const imageFile = { image: data.photo[0] };
+    const res = await axiosPublic.post(image_hosting_api, imageFile, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
+
+    createUser(data.email, data.password)
+    .then(result => {
+      const loggedUser = result.user;
+      console.log(loggedUser);
+      updateUserProfile(data.name, res.data.data.display_url)
+      .then(()=> {
+        console.log("User updated")
+      })
+      .catch(error => {
+        console.log(error)
+      })
+      Swal.fire({
+        title: "Success!",
+        text: "You have successfully created an account!",
+        icon: "success",
+      });
+      navigate(location?.state? location?.state : "/")
+    })
+    .catch(error => {
+      console.error(error);
+    })
+
   };
   return (
     <div className="hero min-h-screen bg-black login bg-opacity-80 ">
@@ -112,7 +146,7 @@ const SignUp = () => {
                 <span className="label-text">District</span>
               </label>
               <select
-              defaultValue="default"
+                defaultValue="default"
                 {...register("district", { required: true })}
                 className="select select-bordered w-full "
               >
@@ -134,7 +168,7 @@ const SignUp = () => {
                 <span className="label-text">Upazilla</span>
               </label>
               <select
-              defaultValue="default"
+                defaultValue="default"
                 {...register("upazilla", { required: true })}
                 className="select select-bordered w-full "
               >
@@ -159,7 +193,7 @@ const SignUp = () => {
                 <span className="label-text">Blood Group</span>
               </label>
               <select
-              defaultValue="default"
+                defaultValue="default"
                 {...register("blood", { required: true })}
                 className="select select-bordered w-full "
               >
@@ -184,6 +218,7 @@ const SignUp = () => {
                 <span className="label-text">Photo</span>
               </label>
               <input
+                {...register("photo", { required: true })}
                 type="file"
                 className="file-input file-input-bordered  w-full "
               />

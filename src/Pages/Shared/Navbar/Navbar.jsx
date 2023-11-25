@@ -1,10 +1,26 @@
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../../assets/images/medical-logo.png";
+import { useContext } from "react";
+import { AuthContext } from "../../../Providers/AuthProvider";
 const Navbar = () => {
-  const navItems = <>
-  <li><NavLink to="/">Home</NavLink></li>
-  <li><NavLink to="/about">About</NavLink></li>
-  </>;
+  const { user, logOut } = useContext(AuthContext);
+
+  const handleLogOut = () => {
+    logOut()
+    .then(()=> {})
+    .catch(error => console.log(error))
+  }
+
+  const navItems = (
+    <>
+      <li>
+        <NavLink to="/">Home</NavLink>
+      </li>
+      <li>
+        <NavLink to="/about">About</NavLink>
+      </li>
+    </>
+  );
   return (
     <div className="navbar bg-base-100 lg:w-4/5 mx-auto p-4 rounded-lg ">
       <div className="navbar-start">
@@ -47,7 +63,21 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{navItems}</ul>
       </div>
       <div className="navbar-end">
-        <Link to="/login" className="btn bg-gradient-to-r from-[#214086] to-[#6b84bd] text-white">Login</Link>
+        {user ? (
+          <Link
+          onClick={handleLogOut}
+            className="btn bg-gradient-to-r from-[#214086] to-[#6b84bd] text-white"
+          >
+            Log Out
+          </Link>
+        ) : (
+          <Link
+            to="/login"
+            className="btn bg-gradient-to-r from-[#214086] to-[#6b84bd] text-white"
+          >
+            Login
+          </Link>
+        )}
       </div>
     </div>
   );
