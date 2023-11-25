@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
+const image_hosting_key=import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+
 const SignUp = () => {
   const [passError, setPassError] = useState("");
   const [district, setDistrict] = useState();
@@ -109,10 +112,11 @@ const SignUp = () => {
                 <span className="label-text">District</span>
               </label>
               <select
+              defaultValue="default"
                 {...register("district", { required: true })}
                 className="select select-bordered w-full "
               >
-                <option disabled selected>
+                <option disabled value="default">
                   Select a District
                 </option>
                 {district?.map((item) => (
@@ -130,10 +134,11 @@ const SignUp = () => {
                 <span className="label-text">Upazilla</span>
               </label>
               <select
+              defaultValue="default"
                 {...register("upazilla", { required: true })}
                 className="select select-bordered w-full "
               >
-                <option disabled selected>
+                <option disabled value="default">
                   Select a Upazilla
                 </option>
                 {upazilla?.map((item) => (
@@ -154,10 +159,11 @@ const SignUp = () => {
                 <span className="label-text">Blood Group</span>
               </label>
               <select
+              defaultValue="default"
                 {...register("blood", { required: true })}
                 className="select select-bordered w-full "
               >
-                <option disabled selected>
+                <option disabled value="default">
                   Select your blood group
                 </option>
                 <option value="a+">A+</option>

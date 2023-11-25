@@ -5,7 +5,7 @@ const Footer = () => {
       <div className="footer w-4/5 md:w-4/6 mx-auto items-center">
         <aside>
           <div>
-          <img className='w-32' src= {logo}alt="" />
+          <img className='w-24' src= {logo}alt="" />
           </div>
           <p className="text-white font-medium text-2xl">HealthSyncrony</p>
           <p className="font-normal text-base text-white -mt-3">Diagnostic Center </p>

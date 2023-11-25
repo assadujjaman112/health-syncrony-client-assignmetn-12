@@ -38,7 +38,7 @@ const Navbar = () => {
               <img className="w-12" src={logo} alt="" />
             </div>
             <h1 className="text-xl font-bold">
-              Healths<span className="text-sky-500">Syncrony</span>
+              Health<span className="text-sky-500">Syncrony</span>
             </h1>
           </div>
         </Link>
