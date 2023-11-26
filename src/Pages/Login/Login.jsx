@@ -4,10 +4,12 @@ import { FcGoogle } from "react-icons/fc";
 import { useContext } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 const Login = () => {
-  const { signIn } = useContext(AuthContext);
+  const { signIn, googleSignIn } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
+  const axiosPublic = useAxiosPublic();
 
   const handleLogin = (event) => {
     event.preventDefault();
@@ -33,6 +35,27 @@ const Login = () => {
         console.error(error);
       });
   };
+  const handleGoogleLogin = () => {
+    googleSignIn()
+    .then(result => {
+      console.log(result.user);
+
+      const userInfo = {
+        name : result.user.name,
+        email : result.user.email,
+        status : "active"
+      }
+
+      axiosPublic.post("/uses", userInfo)
+      .then(res => {
+        console.log(res.data);
+        navigate(location?.state? location?.state : "/")
+      })
+
+
+    })
+    .catch(error => console.error(error))
+  }
 
   return (
     <div className="hero min-h-screen bg-black login bg-opacity-80 ">
@@ -77,7 +100,7 @@ const Login = () => {
           </div>
         </form>
         <div className="flex justify-center">
-          <button className="btn ">
+          <button onClick={handleGoogleLogin} className="btn ">
             <FcGoogle className="text-3xl"></FcGoogle>
           </button>
         </div>

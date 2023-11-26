@@ -13,13 +13,14 @@ const SignUp = () => {
   const [district, setDistrict] = useState();
   const [upazilla, setUpazilla] = useState();
   const axiosPublic = useAxiosPublic();
-  const {createUser, updateUserProfile} = useContext(AuthContext);
+  const { createUser, updateUserProfile } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
   useEffect(() => {
@@ -49,29 +50,42 @@ const SignUp = () => {
         "content-type": "multipart/form-data",
       },
     });
-
     createUser(data.email, data.password)
-    .then(result => {
-      const loggedUser = result.user;
-      console.log(loggedUser);
-      updateUserProfile(data.name, res.data.data.display_url)
-      .then(()=> {
-        console.log("User updated")
-      })
-      .catch(error => {
-        console.log(error)
-      })
-      Swal.fire({
-        title: "Success!",
-        text: "You have successfully created an account!",
-        icon: "success",
-      });
-      navigate(location?.state? location?.state : "/")
-    })
-    .catch(error => {
-      console.error(error);
-    })
+      .then((result) => {
+        const loggedUser = result.user;
+        console.log(loggedUser);
+        updateUserProfile(data.name, res.data.data.display_url)
+          .then(() => {
+            const userInfo = {
+              name: data.name,
+              email: data.email,
+              status: "active",
+              image : res.data.data.display_url,
+              district : data.district,
+              upazilla : data.upazilla,
+              bloodGroup : data.blood,
 
+            };
+            axiosPublic.post("/users", userInfo).then((res) => {
+              if (res.data.insertedId) {
+                Swal.fire({
+                  title: "Success!",
+                  text: "You have successfully created an account!",
+                  icon: "success",
+                });
+                console.log("User added to the database")
+                reset();
+                navigate(location?.state ? location?.state : "/");
+              }
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
   return (
     <div className="hero min-h-screen bg-black login bg-opacity-80 ">
@@ -200,14 +214,14 @@ const SignUp = () => {
                 <option disabled value="default">
                   Select your blood group
                 </option>
-                <option value="a+">A+</option>
-                <option value="a-">A-</option>
-                <option value="b+">B+</option>
-                <option value="b-">B-</option>
-                <option value="ab+">AB+</option>
-                <option value="ab-">AB-</option>
-                <option value="o+">O+</option>
-                <option value="o-">O-</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
               </select>
               {errors.upazilla && (
                 <span className="text-red-600">Upazilla is required</span>
