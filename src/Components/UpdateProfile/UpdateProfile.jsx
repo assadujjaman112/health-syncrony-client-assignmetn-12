@@ -1,10 +1,11 @@
 import { useForm } from "react-hook-form";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { useContext, useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+// import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../Providers/AuthProvider";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import usePerson from "../../Hooks/usePerson";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -16,13 +17,14 @@ const UpdateProfile = () => {
   const navigate = useNavigate();
 
   const {user} = useContext(AuthContext)
-  const { data: person = [] } = useQuery({
-    queryKey: ["users"],
-    queryFn: async () => {
-      const res = await axiosPublic.get(`/users/${user.email}`);
-      return res.data;
-    },
-  });
+  // const { data: person = [] } = useQuery({
+  //   queryKey: ["users"],
+  //   queryFn: async () => {
+  //     const res = await axiosPublic.get(`/users/${user.email}`);
+  //     return res.data;
+  //   },
+  // });
+  const [person] = usePerson();
   const {
     register,
     handleSubmit,

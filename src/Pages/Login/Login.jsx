@@ -41,12 +41,13 @@ const Login = () => {
       console.log(result.user);
 
       const userInfo = {
-        name : result.user.name,
+        name : result.user.name || result.user.displayName,
         email : result.user.email,
-        status : "active"
+        status : "active",
+        image : result.user.photoURL,
       }
 
-      axiosPublic.post("/uses", userInfo)
+      axiosPublic.post("/users", userInfo)
       .then(res => {
         console.log(res.data);
         navigate(location?.state? location?.state : "/")

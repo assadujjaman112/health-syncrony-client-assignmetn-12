@@ -8,6 +8,9 @@ import Dashboard from "../Layouts/Dashboard";
 import UserProfile from "../Pages/User/UserProfile";
 import PrivateRoute from "./PrivateRoute";
 import UpdateProfile from "../Components/UpdateProfile/UpdateProfile";
+import AllUsers from "../Pages/AllUsers/AllUsers";
+import AddATest from "../Pages/AddATest/AddATest";
+import AllTests from "../Pages/AllTests/AllTests";
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +43,21 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
+      {
+        path : "allUsers",
+        element : <AllUsers></AllUsers>
+      },
+      {
+        path : "addTest",
+        element : <AddATest></AddATest>
+      },
+      {
+        path : "allTests",
+        element : <AllTests></AllTests>
+      },
+
+
+      // User Routes
       {
         path: "userProfile",
         element: (

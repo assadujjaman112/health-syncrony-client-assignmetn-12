@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const UserProfile = () => {
   const axiosPublic = useAxiosPublic();
   const { user } = useContext(AuthContext);
-  const { data: person = [] } = useQuery({
+  const { data: person =[] } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
       const res = await axiosPublic.get(`/users/${user.email}`);
@@ -22,25 +22,25 @@ const UserProfile = () => {
         <div className="md:w-4/5 lg:w-1/2 mx-auto flex flex-col justify-center h-[600px] rounded-lg bg-blue-300 shadow-lg  px-5">
           <h1 className="text-center text-3xl my-7 font-bold">My Profile</h1>
           <div className="flex justify-center ">
-            <img className="w-52 h-52 rounded-full" src={person.image} alt="" />
+            <img className="w-52 h-52 rounded-full" src={person.image ||user.photoURL} alt="" />
           </div>
           <div className="pl-5 mt-5">
             <h1 className="font-semibold">
-              <span className="font-bold">Name :</span> {person.name}
+              <span className="font-bold">Name :</span> {person.name || user.displayName} 
             </h1>
             <p>
-              <span className="font-bold">Email :</span> {person.email}
+              <span className="font-bold">Email :</span> {person.email || user.email}
             </p>
             <p>
               <span className="font-bold">Blood Group :</span>{" "}
-              {person.bloodGroup}
+              {person.bloodGroup || "No data"}
             </p>
             <p>
-              <span className="font-bold">Address :</span> {person.upazilla},{" "}
+              <span className="font-bold">Address :</span> {person.upazilla || "No data"},{" "}
               {person.district}
             </p>
             <p>
-              <span className="font-bold">Status :</span> {person.status}
+              <span className="font-bold">Status :</span> {person.status }
             </p>
           </div>
           <div>
