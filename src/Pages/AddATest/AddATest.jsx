@@ -20,7 +20,7 @@ const AddATest = () => {
         reset()
         Swal.fire({
           title: "Success !",
-          text: `${res.data.name} has been added !`,
+          text: `${data.name} has been added !`,
           icon: "success",
         });
       }
@@ -56,7 +56,7 @@ const AddATest = () => {
             <input
               type="text"
               placeholder="Photo Url"
-              {...register("photo", { required: true })}
+              {...register("image", { required: true })}
               className="input input-bordered w-full"
               required
             />

@@ -63,25 +63,22 @@ const AllUsers = () => {
   };
   return (
     <div className="mt-5 md:mt-8 lg:mt-12">
-      <h1 className="my-5 text-3xl font-bold ml-4">Total Users : {users.length}</h1>
+      <h1 className="my-5 text-3xl font-bold ml-4 text-center"><span className="text-blue-600">Total</span> Users : {users.length}</h1>
       <div className="overflow-x-auto rounded-lg">
         <table className="table">
           {/* head */}
           <thead className="bg-blue-300 text-black text-base">
             <tr>
-              <th>#</th>
               <th>Image</th>
               <th>Name</th>
-              <th>Email</th>
               <th>Status</th>
               <th>Role</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {users?.map((user, index) => (
+            {users?.map((user) => (
               <tr key={user._id}>
-                <th>{index + 1}</th>
                 <td>
                   <div className="flex items-center gap-3">
                     <div className="avatar">
@@ -95,7 +92,6 @@ const AllUsers = () => {
                   </div>
                 </td>
                 <td>{user.name}</td>
-                <td>{user.email}</td>
                 <td>
                   {user.status === "blocked" ? (
                     <button

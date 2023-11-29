@@ -20,7 +20,7 @@ const Dashboard = () => {
             <FaList></FaList>
           </label>
         </div>
-        <div className="drawer-side">
+        <div className="drawer-side z-10">
           <label
             htmlFor="my-drawer-2"
             aria-label="close sidebar"
@@ -77,7 +77,7 @@ const Dashboard = () => {
           </ul>
         </div>
       </div>
-      <div className="w-4/5 ml-auto">
+      <div className="w-full lg:w-4/5 ml-auto">
         <Outlet></Outlet>
       </div>
     </div>
