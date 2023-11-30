@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const AllTests = () => {
   const axiosPublic = useAxiosPublic();
-  const { data: allTests = [] } = useQuery({
+  const { data: allTests = [], refetch} = useQuery({
     queryKey: ["allTests"],
     queryFn: async () => {
       const res = await axiosPublic.get("/tests");
@@ -12,11 +13,36 @@ const AllTests = () => {
     },
   });
 
+  const handleDelete = (test) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosPublic.delete(`/tests/${test._id}`).then((res) => {
+          if (res.data.deletedCount > 0) {
+            refetch();
+            Swal.fire({
+              title: "Deleted!",
+              text: `${test.name} has been deleted!`,
+              icon: "success"
+            });
+          }
+        });
+      }
+    });
+  };
   return (
     <div className="mt-5 md:mt-8 lg:mt-12">
       <h1 className="text-center text-3xl font-bold my-5">
         All <span className="text-blue-600">Tests</span>
       </h1>
+      <p className="text-xl font-semibold ml-6 mb-3">Total Tests : {allTests.length}</p>
       <div className="overflow-x-auto rounded-t-lg shadow-lg pb-10">
         <table className="table rounded-t-lg">
           {/* head */}
@@ -50,7 +76,10 @@ const AllTests = () => {
                     <FaEdit className="text-lg"></FaEdit>
                   </button>
 
-                  <button className="btn bg-gradient-to-r from-[#0e1a38] to-[#6b84bd] text-white">
+                  <button
+                    onClick={() => handleDelete(test)}
+                    className="btn bg-gradient-to-r from-[#0e1a38] to-[#6b84bd] text-white"
+                  >
                     <FaTrashAlt className="text-lg"></FaTrashAlt>
                   </button>
                 </td>
