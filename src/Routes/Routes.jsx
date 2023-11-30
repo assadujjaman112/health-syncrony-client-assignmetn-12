@@ -11,6 +11,7 @@ import UpdateProfile from "../Components/UpdateProfile/UpdateProfile";
 import AllUsers from "../Pages/AllUsers/AllUsers";
 import AddATest from "../Pages/AddATest/AddATest";
 import AllTests from "../Pages/AllTests/AllTests";
+import UpdateItem from "../Components/UpdateItem/UpdateItem";
 
 export const router = createBrowserRouter([
   {
@@ -54,6 +55,11 @@ export const router = createBrowserRouter([
       {
         path : "allTests",
         element : <AllTests></AllTests>
+      },
+      {
+        path : 'updateTest/:id',
+        element : <UpdateItem></UpdateItem>,
+        loader : ({params}) => fetch(`http://localhost:5000/tests/${params.id}`)
       },
 
 

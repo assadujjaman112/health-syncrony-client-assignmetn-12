@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const AllTests = () => {
   const axiosPublic = useAxiosPublic();
@@ -72,9 +73,9 @@ const AllTests = () => {
                 <td>{test.name}</td>
                 <td>{test?.reservation || 0}</td>
                 <td>
-                  <button className="btn bg-gradient-to-r from-[#0e1a38] to-[#6b84bd] text-white mr-3">
-                    <FaEdit className="text-lg"></FaEdit>
-                  </button>
+                  <Link to={`/dashboard/updateTest/${test._id}`}><button className="btn bg-gradient-to-r from-[#0e1a38] to-[#6b84bd] text-white mr-3">
+                  <FaEdit className="text-lg"></FaEdit>
+                  </button></Link>
 
                   <button
                     onClick={() => handleDelete(test)}
