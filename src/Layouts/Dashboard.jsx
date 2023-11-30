@@ -1,9 +1,10 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { FaList, FaUsers } from "react-icons/fa";
-import { CgAdd, CgFileDocument, CgProfile } from "react-icons/cg";
+import { CgAdd, CgFileDocument, CgProfile, CgFileAdd } from "react-icons/cg";
 import { FaFilePrescription } from "react-icons/fa";
 import { SlCalender } from "react-icons/sl";
 import { FaHome } from "react-icons/fa";
+import { GiKnightBanner } from "react-icons/gi";
 
 const Dashboard = () => {
   const isAdmin = true;
@@ -43,6 +44,16 @@ const Dashboard = () => {
                 <li>
                   <NavLink to="/dashboard/allTests">
                     <CgFileDocument className="text-xl"></CgFileDocument> All Tests
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/dashboard/addBanner">
+                    <CgFileAdd className="text-xl"></CgFileAdd> Add Banner
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/dashboard/allBanner">
+                    <GiKnightBanner className="text-xl"></GiKnightBanner> All Banner
                   </NavLink>
                 </li>
               </>

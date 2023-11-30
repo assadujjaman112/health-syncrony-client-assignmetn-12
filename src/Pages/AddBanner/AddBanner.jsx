@@ -1,50 +1,57 @@
 import { useForm } from "react-hook-form";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import Swal from "sweetalert2";
-import { useLoaderData } from "react-router-dom";
 
-const UpdateItem = () => {
-    const {_id, name, image, details, price, slots, date} = useLoaderData();
-    const axiosPublic = useAxiosPublic();
-    const {
-      register,
-      handleSubmit,
-      formState: { errors },
-      reset,
-    } = useForm();
-  
-    const onSubmit = async (data) => {
-      console.log(data);
-  
-      await axiosPublic.patch(`/tests/${_id}`,data)
-      .then((res) => {
-        if (res.data.modifiedCount > 0) {
-          reset()
-          Swal.fire({
-            title: "Success !",
-            text: `${data.name} has been updated !`,
-            icon: "success",
-          });
-        }
-      });
-    };
+const AddBanner = () => {
+  const axiosPublic = useAxiosPublic();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    console.log(data);
+    const banner = {
+        name : data.name,
+        image : data.image,
+        title : data.title,
+        description : data.description,
+        couponName : data.couponName,
+        couponRate : parseInt(data.couponRate),
+        isActive : false
+    }
+    axiosPublic.post("/banners", banner)
+    .then((res) => {
+      if (res.data.insertedId) {
+        reset();
+        Swal.fire({
+          title: "Success !",
+          text: `${data.name} has been added !`,
+          icon: "success",
+        });
+      }
+    });
+  };
   return (
-    <div className="mt-5 md:mt-20 lg:mt-24 w-full">
+    <div className="mt-5 md:mt-16 lg:mt-24 w-full">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="card-body shadow-lg lg:w-4/5 mx-auto bg-blue-200 rounded-lg"
       >
-        <h1 className="text-center text-3xl font-semibold mb-5">Update A Test</h1>
+        <h1 className="text-center text-3xl font-semibold mb-5">
+          Add A Banner
+        </h1>
         <div className="flex gap-5">
           <div className="form-control w-1/2">
             <label className="label">
-              <span className="label-text">Test Name</span>
+              <span className="label-text">Banner Name</span>
             </label>
             <input
               type="text"
-              defaultValue={name}
               {...register("name", { required: true })}
-              placeholder="Test Name"
+              placeholder="Banner Name"
               className="input input-bordered w-full"
             />
             {errors.name && (
@@ -57,7 +64,6 @@ const UpdateItem = () => {
             </label>
             <input
               type="text"
-              defaultValue={image}
               placeholder="Photo Url"
               {...register("image", { required: true })}
               className="input input-bordered w-full"
@@ -69,28 +75,26 @@ const UpdateItem = () => {
         <div className="flex gap-5">
           <div className="form-control w-1/2">
             <label className="label">
-              <span className="label-text">Details</span>
+              <span className="label-text">Title</span>
             </label>
             <input
-            defaultValue={details}
               type="text"
-              {...register("details", { required: true })}
-              placeholder="Test Details"
+              {...register("title", { required: true })}
+              placeholder="Title"
               className="input input-bordered w-full"
             />
-            {errors.details && (
-              <span className="text-red-600">Details is required</span>
+            {errors.title && (
+              <span className="text-red-600">Title is required</span>
             )}
           </div>
           <div className="form-control w-1/2">
             <label className="label">
-              <span className="label-text">Price</span>
+              <span className="label-text">Description</span>
             </label>
             <input
-            defaultValue={price}
               type="text"
-              placeholder="Price"
-              {...register("price", { required: true })}
+              placeholder="Description"
+              {...register("description", { required: true })}
               className="input input-bordered w-full"
               required
             />
@@ -100,28 +104,26 @@ const UpdateItem = () => {
         <div className="flex gap-5">
           <div className="form-control w-1/2">
             <label className="label">
-              <span className="label-text">Slots</span>
+              <span className="label-text">Coupon Code Name</span>
             </label>
             <input
-            defaultValue={slots}
               type="text"
-              {...register("slots", { required: true })}
-              placeholder="Slots"
+              {...register("couponName", { required: true })}
+              placeholder="Coupon Code Name"
               className="input input-bordered w-full"
             />
-            {errors.slots && (
-              <span className="text-red-600">Slots is required</span>
+            {errors.CouponName && (
+              <span className="text-red-600">Coupon Code Name is required</span>
             )}
           </div>
           <div className="form-control w-1/2">
             <label className="label">
-              <span className="label-text">Date</span>
+              <span className="label-text">Coupon Rate</span>
             </label>
             <input
-            defaultValue={date}
-              type="date"
-              {...register("date", { required: true })}
-              placeholder="Date"
+              type="text"
+              {...register("couponRate", { required: true })}
+              placeholder="Coupon Code Rate"
               className="input input-bordered w-full"
             />
           </div>
@@ -131,7 +133,7 @@ const UpdateItem = () => {
           <input
             className="btn btn-block bg-gradient-to-r from-[#0e1a38] to-[#6b84bd] text-white"
             type="submit"
-            value="Update Add A Test"
+            value="Add Banner"
           />
         </div>
       </form>
@@ -139,4 +141,4 @@ const UpdateItem = () => {
   );
 };
 
-export default UpdateItem;
+export default AddBanner;

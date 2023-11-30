@@ -24,7 +24,7 @@ const UpdateProfile = () => {
   //     return res.data;
   //   },
   // });
-  const [person] = usePerson();
+  const [person ] = usePerson();
   const {
     register,
     handleSubmit,
@@ -81,7 +81,7 @@ const UpdateProfile = () => {
   return (
     <div className="hero min-h-screen bg-black login bg-opacity-80 lg:ml-40">
       <div className="card shrink-0 w-11/12 md:w-4/5 lg:w-3/5  shadow-2xl bg-base-100 my-10">
-        <h1 className="text-center text-3xl font-bold mt-5">Sign Up Now!</h1>
+        <h1 className="text-center text-3xl font-bold mt-5">Update profile</h1>
         <form onSubmit={handleSubmit(onSubmit)} className="card-body">
           <div className="flex gap-5">
             <div className="form-control w-1/2">

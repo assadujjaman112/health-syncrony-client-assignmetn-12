@@ -12,6 +12,8 @@ import AllUsers from "../Pages/AllUsers/AllUsers";
 import AddATest from "../Pages/AddATest/AddATest";
 import AllTests from "../Pages/AllTests/AllTests";
 import UpdateItem from "../Components/UpdateItem/UpdateItem";
+import AddBanner from "../Pages/AddBanner/AddBanner";
+import AllBanners from "../Pages/AllBanners/AllBanners";
 
 export const router = createBrowserRouter([
   {
@@ -60,6 +62,14 @@ export const router = createBrowserRouter([
         path : 'updateTest/:id',
         element : <UpdateItem></UpdateItem>,
         loader : ({params}) => fetch(`http://localhost:5000/tests/${params.id}`)
+      },
+      {
+        path : "AddBanner",
+        element : <AddBanner></AddBanner>
+      },
+      {
+        path : "allBanner",
+        element : <AllBanners></AllBanners>
       },
 
 
