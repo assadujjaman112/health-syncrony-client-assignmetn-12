@@ -1,10 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { FaTrashAlt } from "react-icons/fa";
+import Swal from "sweetalert2";
+import { useState } from "react";
 
 const AllBanners = () => {
+  const [bannerCount, setBannerCount] = useState(0);
   const axiosPublic = useAxiosPublic();
-  const { data: allBanners = [] } = useQuery({
+  const { data: allBanners = [], refetch } = useQuery({
     queryKey: ["allBanners"],
     queryFn: async () => {
       const res = await axiosPublic.get("/banners");
@@ -12,10 +15,67 @@ const AllBanners = () => {
     },
   });
 
-  const handleDelete = banner => {
-    console.log(banner)
-  }
+  const handleActive = (banner) => {
+    if (bannerCount !== 0) {
+      Swal.fire({
+        title: "Error!",
+        text: `Can't active more than one banner!`,
+        icon: "error",
+      });
+      return;
+    }
+    axiosPublic.patch(`/banners/${banner._id}`).then((res) => {
+      if (res.data.modifiedCount > 0) {
+        setBannerCount(1);
+        Swal.fire({
+          title: "Success!",
+          text: `Banner successfully activated!`,
+          icon: "success",
+        });
+        refetch();
+      }
+    });
+  };
 
+  const handleBlock = (banner) => {
+    axiosPublic.patch(`/banners/block/${banner._id}`).then((res) => {
+      console.log(res.data);
+      if (res.data.modifiedCount > 0) {
+        setBannerCount(0);
+        refetch();
+        Swal.fire({
+          title: "Success!",
+          text: `Banner successfully blocked!`,
+          icon: "success",
+        });
+      }
+    });
+  };
+
+  const handleDelete = (banner) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosPublic.delete(`/banners/${banner._id}`).then((res) => {
+          if (res.data.deletedCount > 0) {
+            refetch();
+            Swal.fire({
+              title: "Deleted!",
+              text: `${banner.name} has been deleted!`,
+              icon: "success",
+            });
+          }
+        });
+      }
+    });
+  };
 
   return (
     <div className="mt-5 md:mt-8 lg:mt-12">
@@ -53,7 +113,11 @@ const AllBanners = () => {
                 </td>
                 <td>{banner.name}</td>
                 <td>
-                  <button>{banner?.isActive ? "true" : "false"}</button>
+                  {banner?.isActive ? (
+                    <button onClick={() => handleBlock(banner)}>true</button>
+                  ) : (
+                    <button onClick={() => handleActive(banner)}>false</button>
+                  )}
                 </td>
                 <td>
                   <button
