@@ -3,6 +3,7 @@ import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const AllTests = () => {
   const axiosPublic = useAxiosPublic();
@@ -40,6 +41,9 @@ const AllTests = () => {
   };
   return (
     <div className="mt-5 md:mt-8 lg:mt-12">
+      <Helmet>
+        <title>HealthSynchrony | All Tests</title>
+      </Helmet>
       <h1 className="text-center text-3xl font-bold my-5">
         All <span className="text-blue-600">Tests</span>
       </h1>

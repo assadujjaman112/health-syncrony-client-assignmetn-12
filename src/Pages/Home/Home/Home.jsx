@@ -3,6 +3,7 @@ import Banner from "../Banner/Banner";
 import { AuthContext } from "../../../Providers/AuthProvider";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet-async";
 
 const Home = () => {
   const { user } = useContext(AuthContext);
@@ -21,6 +22,9 @@ const Home = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>HealthSynchrony | Home</title>
+      </Helmet>
       <Banner></Banner>
       <section className="my-5 md:my-8 lg:my-12 w-11/12 md:w-4/5 mx-auto">
         <h1 className="text-center text-3xl md:text-4xl font-bold lg:text-5xl mb-5 md:mb-8">

@@ -7,9 +7,9 @@ const Navbar = () => {
 
   const handleLogOut = () => {
     logOut()
-    .then(()=> {})
-    .catch(error => console.log(error))
-  }
+      .then(() => {})
+      .catch((error) => console.log(error));
+  };
 
   const navItems = (
     <>
@@ -22,9 +22,11 @@ const Navbar = () => {
       <li>
         <NavLink to="/allTests">All Tests</NavLink>
       </li>
-      <li>
-        <NavLink to="/dashboard">Dashboard</NavLink>
-      </li>
+      {user && (
+        <li>
+          <NavLink to="/dashboard">Dashboard</NavLink>
+        </li>
+      )}
     </>
   );
   return (
@@ -71,7 +73,7 @@ const Navbar = () => {
       <div className="navbar-end">
         {user ? (
           <Link
-          onClick={handleLogOut}
+            onClick={handleLogOut}
             className="btn bg-gradient-to-r from-[#214086] to-[#6b84bd] text-white"
           >
             Log Out

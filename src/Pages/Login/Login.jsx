@@ -6,6 +6,7 @@ import { AuthContext } from "../../Providers/AuthProvider";
 import Swal from "sweetalert2";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import usePerson from "../../Hooks/usePerson";
+import { Helmet } from "react-helmet-async";
 const Login = () => {
   const { signIn, googleSignIn, logOut } = useContext(AuthContext);
   const location = useLocation();
@@ -69,6 +70,9 @@ const Login = () => {
 
   return (
     <div className="hero min-h-screen bg-black login bg-opacity-80 ">
+      <Helmet>
+        <title>HealthSynchrony | Login</title>
+      </Helmet>
       <div className="card shrink-0 w-4/5 md:w-1/2 lg:w-1/3  shadow-2xl bg-base-100">
         <h1 className="text-center text-3xl font-bold mt-5">Login Now!</h1>
         <form onSubmit={handleLogin} className="card-body">

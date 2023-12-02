@@ -30,13 +30,13 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
-        loader: () => fetch("http://localhost:5000/banners"),
+        loader: () => fetch("https://health-syncrony-server.vercel.app/banners"),
       },
       {
         path: "/tests/:id",
         element: <TestDetails></TestDetails>,
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/tests/${params.id}`),
+          fetch(`https://health-syncrony-server.vercel.app/tests/${params.id}`),
       },
       {
         path: "/allTests",
@@ -92,7 +92,7 @@ export const router = createBrowserRouter([
           </AdminRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/tests/${params.id}`),
+          fetch(`https://health-syncrony-server.vercel.app/tests/${params.id}`),
       },
       {
         path: "AddBanner",

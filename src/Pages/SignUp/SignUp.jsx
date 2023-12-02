@@ -4,6 +4,7 @@ import { Link,  useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { AuthContext } from "../../Providers/AuthProvider";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 
 const SignUp = () => {
@@ -81,6 +82,9 @@ const SignUp = () => {
   };
   return (
     <div className="hero min-h-screen bg-black login bg-opacity-80 ">
+      <Helmet>
+        <title>HealthSynchrony | Sign UP</title>
+      </Helmet>
       <div className="card shrink-0 w-11/12 md:w-4/5 lg:w-3/5  shadow-2xl bg-base-100 my-10">
         <h1 className="text-center text-3xl font-bold mt-5">Sign Up Now!</h1>
         <form onSubmit={handleSubmit(onSubmit)} className="card-body">

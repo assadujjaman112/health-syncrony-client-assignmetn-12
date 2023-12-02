@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 const Reservations = () => {
   const axiosPublic = useAxiosPublic();
@@ -41,6 +42,9 @@ const Reservations = () => {
 
   return (
     <div className="my-5 my:mt-8 lg:my-12">
+      <Helmet>
+        <title>HealthSynchrony | Reservations</title>
+      </Helmet>
       <h1 className="text-3xl text-center md:text-4xl lg:text-5xl font-bold">
         Reservations{" "}
       </h1>
