@@ -9,10 +9,10 @@ const Banner = () => {
     <div className="h-[600px] bg-blue-200 py-10">
       {activeBanner ? (
         <div className="w-4/5 mx-auto h-full bg-white  shadow-lg rounded-lg px-10 relative flex justify-around items-center">
-          <div className="flex items-center h-full relative">
+          <div className="flex items-center h-full relative flex-1">
             <img
               src={activeBanner.image}
-              className="rounded-full w-[410px] h-96 border-blue-500 border-[12px] shadow-lg"
+              className="rounded-full w-[410px] h-96  border-blue-500 border-[12px] shadow-lg"
               alt=""
             />
             <p className="bg-blue-400 rounded-full px-5 py-3 text-xl text-center text-white font-bold -ml-20 -mb-36 border-blue-700 border-8">
@@ -23,7 +23,7 @@ const Banner = () => {
               Off
             </p>
           </div>
-          <div className="text-right space-y-2">
+          <div className="text-right space-y-2 flex-1">
             <h1 className="text-4xl font-bold text-blue-800">
               {activeBanner.title}{" "}
             </h1>

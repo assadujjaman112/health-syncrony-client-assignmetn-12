@@ -1,12 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link,  useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { AuthContext } from "../../Providers/AuthProvider";
 import Swal from "sweetalert2";
 
-const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
-const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 const SignUp = () => {
   const [passError, setPassError] = useState("");
@@ -14,7 +12,6 @@ const SignUp = () => {
   const [upazilla, setUpazilla] = useState();
   const axiosPublic = useAxiosPublic();
   const { createUser, updateUserProfile } = useContext(AuthContext);
-  const location = useLocation();
   const navigate = useNavigate();
   const {
     register,
@@ -44,23 +41,18 @@ const SignUp = () => {
     if (data.password !== data.confirm) {
       return setPassError("Confirm password is wrong.");
     }
-    const imageFile = { image: data.photo[0] };
-    const res = await axiosPublic.post(image_hosting_api, imageFile, {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    });
+
     createUser(data.email, data.password)
       .then((result) => {
         const loggedUser = result.user;
         console.log(loggedUser);
-        updateUserProfile(data.name, res.data.data.display_url)
+        updateUserProfile(data.name, data.photo)
           .then(() => {
             const userInfo = {
               name: data.name,
               email: data.email,
               status: "active",
-              image : res.data.data.display_url,
+              image : data.photo,
               district : data.district,
               upazilla : data.upazilla,
               bloodGroup : data.blood,
@@ -75,7 +67,7 @@ const SignUp = () => {
                 });
                 console.log("User added to the database")
                 reset();
-                navigate(location?.state ? location?.state : "/");
+                navigate('/');
               }
             });
           })
@@ -232,9 +224,10 @@ const SignUp = () => {
                 <span className="label-text">Photo</span>
               </label>
               <input
+                type="text"
                 {...register("photo", { required: true })}
-                type="file"
-                className="file-input file-input-bordered  w-full "
+                placeholder="Photo"
+                className="input input-bordered w-full"
               />
             </div>
           </div>

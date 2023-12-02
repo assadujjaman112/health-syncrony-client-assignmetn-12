@@ -15,7 +15,9 @@ const Home = () => {
     },
   });
 
-  const myFeatures = features.filter(feature =>feature.email === user.email);
+  const myFeatures = features.filter(
+    (feature) => feature?.email === user?.email
+  );
 
   return (
     <div>
@@ -28,24 +30,28 @@ const Home = () => {
           {myFeatures?.map((feature) => (
             <div key={feature._id} className="card bg-base-100 shadow-xl">
               <figure>
-                <img
-                  src= {feature.image}
-                  alt="Shoes"
-                />
+                <img src={feature.image} alt="Shoes" />
               </figure>
               <div className="card-body">
-                <h2 className="card-title font-bold"> {feature.name}</h2>
-                <p>If a dog chews shoes whose shoes does he choose?</p>
-                <div className="card-actions justify-end">
-                  <button className="btn btn-primary">Buy Now</button>
-                </div>
+                <h2 className="card-title"> <span className="text-xl font-bold">Name :</span> {feature.name}</h2>
+                <p><span className="text-xl font-bold">Price :</span> ${feature.price}</p>
+                <p><span className="text-xl font-bold">Date :</span> {feature.date}</p>
+                <p><span className="text-xl font-bold">Description :</span> {feature.details}</p>
+               
               </div>
             </div>
           ))}
         </div>
       </section>
-      <section>
+      <section  className="my-5 md:my-8 lg:my-12 w-11/12 md:w-4/5 mx-auto">
+        <h1 className="text-center text-3xl md:text-4xl font-bold lg:text-5xl mb-5 md:mb-8">Our Partners</h1>
+        <div className="md:flex justify-evenly bg-blue-400 px-8 py-14 rounded-lg">
+          <h1 className="text-3xl font-extrabold">Square Ltd.</h1>
+          <h1 className="text-3xl font-extrabold">Bashundhara Group</h1>
+          <h1 className="text-3xl font-extrabold">Acme Group</h1>
 
+
+        </div>
       </section>
     </div>
   );

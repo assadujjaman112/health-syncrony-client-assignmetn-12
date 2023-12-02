@@ -1,21 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
-import usePerson from "../../Hooks/usePerson";
 import Swal from "sweetalert2";
+import useAdmin from "../../Hooks/useAdmin";
 
 const AllUsers = () => {
+  const [isAdmin] = useAdmin();
   const axiosPublic = useAxiosPublic();
-  const { data: users = [], refetch } = useQuery({
-    queryKey: ["users"],
+  const { data: allUsers = [], refetch} = useQuery({
+    queryKey: ["allTests"],
     queryFn: async () => {
       const res = await axiosPublic.get("/users");
       return res.data;
     },
   });
-
-  const [person] = usePerson();
   const handleBlock = (user) => {
-    if (person.status !== "active") {
+    if (!isAdmin) {
       return Swal.fire({
         position: "top-end",
         icon: "error",
@@ -31,7 +30,7 @@ const AllUsers = () => {
   };
 
   const handleActive = (user) => {
-    if (person.status !== "active") {
+    if (!isAdmin) {
       return Swal.fire({
         position: "top-end",
         icon: "error",
@@ -47,7 +46,7 @@ const AllUsers = () => {
   };
 
   const handleAdmin = (user) => {
-    if (person.status !== "active") {
+    if (!isAdmin) {
       return Swal.fire({
         position: "top-end",
         icon: "error",
@@ -63,7 +62,9 @@ const AllUsers = () => {
   };
   return (
     <div className="mt-5 md:mt-8 lg:mt-12">
-      <h1 className="my-5 text-3xl font-bold ml-4 text-center"><span className="text-blue-600">Total</span> Users : {users.length}</h1>
+      <h1 className="my-5 text-3xl font-bold ml-4 text-center">
+        <span className="text-blue-600">Total</span> Users : {allUsers.length}
+      </h1>
       <div className="overflow-x-auto rounded-lg">
         <table className="table">
           {/* head */}
@@ -77,7 +78,7 @@ const AllUsers = () => {
             </tr>
           </thead>
           <tbody>
-            {users?.map((user) => (
+            {allUsers?.map((user) => (
               <tr key={user._id}>
                 <td>
                   <div className="flex items-center gap-3">

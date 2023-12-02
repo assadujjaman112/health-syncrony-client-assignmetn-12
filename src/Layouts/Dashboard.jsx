@@ -1,13 +1,15 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { FaList, FaUsers } from "react-icons/fa";
-import { CgAdd, CgFileDocument, CgProfile, CgFileAdd } from "react-icons/cg";
+import { CgAdd, CgFileDocument, CgProfile, CgFileAdd, CgBookmark } from "react-icons/cg";
 import { FaFilePrescription } from "react-icons/fa";
 import { SlCalender } from "react-icons/sl";
 import { FaHome } from "react-icons/fa";
 import { GiKnightBanner } from "react-icons/gi";
+import useAdmin from "../Hooks/useAdmin";
 
 const Dashboard = () => {
-  const isAdmin = true;
+  const [isAdmin] = useAdmin();
+
   return (
     <div className="flex md:w-4/5 mx-auto">
       <div className="drawer w-1 lg:drawer-open">
@@ -43,7 +45,13 @@ const Dashboard = () => {
                 </li>
                 <li>
                   <NavLink to="/dashboard/allTests">
-                    <CgFileDocument className="text-xl"></CgFileDocument> All Tests
+                    <CgFileDocument className="text-xl"></CgFileDocument> All
+                    Tests
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/dashboard/reservations">
+                    <CgBookmark className="text-xl"></CgBookmark> Reservations
                   </NavLink>
                 </li>
                 <li>
@@ -53,7 +61,8 @@ const Dashboard = () => {
                 </li>
                 <li>
                   <NavLink to="/dashboard/allBanner">
-                    <GiKnightBanner className="text-xl"></GiKnightBanner> All Banner
+                    <GiKnightBanner className="text-xl"></GiKnightBanner> All
+                    Banner
                   </NavLink>
                 </li>
               </>

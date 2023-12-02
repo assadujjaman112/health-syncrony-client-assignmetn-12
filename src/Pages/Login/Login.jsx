@@ -5,11 +5,14 @@ import { useContext } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
 import Swal from "sweetalert2";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import usePerson from "../../Hooks/usePerson";
 const Login = () => {
-  const { signIn, googleSignIn } = useContext(AuthContext);
+  const { signIn, googleSignIn, logOut } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
   const axiosPublic = useAxiosPublic();
+
+  const [person] = usePerson();
 
   const handleLogin = (event) => {
     event.preventDefault();
@@ -23,13 +26,18 @@ const Login = () => {
     signIn(email, password)
       .then((result) => {
         const user = result.user;
+        if (person.status === "blocked") {
+          logOut();
+          navigate("/");
+        }
         console.log(user);
         Swal.fire({
           title: "Success!",
           text: "You have successfully logged in!",
           icon: "success",
         });
-        navigate(location?.state? location?.state : "/")
+
+        navigate(location?.state ? location?.state : "/");
       })
       .catch((error) => {
         console.error(error);
@@ -37,26 +45,27 @@ const Login = () => {
   };
   const handleGoogleLogin = () => {
     googleSignIn()
-    .then(result => {
-      console.log(result.user);
+      .then((result) => {
+        console.log(result.user);
+        if (person.status === "blocked") {
+          logOut();
+          navigate("/");
+        }
 
-      const userInfo = {
-        name : result.user.name || result.user.displayName,
-        email : result.user.email,
-        status : "active",
-        image : result.user.photoURL,
-      }
+        const userInfo = {
+          name: result.user.name || result.user.displayName,
+          email: result.user.email,
+          status: "active",
+          image: result.user.photoURL,
+        };
 
-      axiosPublic.post("/users", userInfo)
-      .then(res => {
-        console.log(res.data);
-        navigate(location?.state? location?.state : "/")
+        axiosPublic.post("/users", userInfo).then((res) => {
+          console.log(res.data);
+          navigate("/");
+        });
       })
-
-
-    })
-    .catch(error => console.error(error))
-  }
+      .catch((error) => console.error(error));
+  };
 
   return (
     <div className="hero min-h-screen bg-black login bg-opacity-80 ">

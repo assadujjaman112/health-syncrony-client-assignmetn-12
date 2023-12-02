@@ -17,6 +17,10 @@ import AllBanners from "../Pages/AllBanners/AllBanners";
 import Tests from "../Pages/Tests/Tests";
 import TestDetails from "../Components/Test/TestDetails";
 import Payment from "../Components/Payment/Payment";
+import AdminRoute from "./AdminRoute";
+import Reservations from "../Pages/Reservations/Reservations";
+import UpcomingAppointments from "../Pages/UpcomingAppoinments/UpcomingAppoinments";
+import TestResult from "../Pages/TestResults/TestResult";
 
 export const router = createBrowserRouter([
   {
@@ -26,16 +30,17 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
-        loader : ()=> fetch('http://localhost:5000/banners')
+        loader: () => fetch("http://localhost:5000/banners"),
       },
       {
-        path : "/tests/:id",
-        element : <TestDetails></TestDetails>,
-        loader : ({params})=> fetch(`http://localhost:5000/tests/${params.id}`)
+        path: "/tests/:id",
+        element: <TestDetails></TestDetails>,
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/tests/${params.id}`),
       },
       {
-        path : "/allTests",
-        element : <Tests></Tests>
+        path: "/allTests",
+        element: <Tests></Tests>,
       },
       {
         path: "/about",
@@ -60,31 +65,55 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
-        path : "allUsers",
-        element : <AllUsers></AllUsers>
+        path: "allUsers",
+        element: (
+          <AdminRoute>
+            <AllUsers></AllUsers>
+          </AdminRoute>
+        ),
       },
       {
-        path : "addTest",
-        element : <AddATest></AddATest>
+        path: "addTest",
+        element: (
+          <AdminRoute>
+            <AddATest></AddATest>
+          </AdminRoute>
+        ),
       },
       {
-        path : "allTests",
-        element : <AllTests></AllTests>
+        path: "allTests",
+        element: <AllTests></AllTests>,
       },
       {
-        path : 'updateTest/:id',
-        element : <UpdateItem></UpdateItem>,
-        loader : ({params}) => fetch(`http://localhost:5000/tests/${params.id}`)
+        path: "updateTest/:id",
+        element: (
+          <AdminRoute>
+            <UpdateItem></UpdateItem>
+          </AdminRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/tests/${params.id}`),
       },
       {
-        path : "AddBanner",
-        element : <AddBanner></AddBanner>
+        path: "AddBanner",
+        element: (
+          <AdminRoute>
+            <AddBanner></AddBanner>
+          </AdminRoute>
+        ),
       },
       {
-        path : "allBanner",
-        element : <AllBanners></AllBanners>
+        path: "allBanner",
+        element: (
+          <AdminRoute>
+            <AllBanners></AllBanners>
+          </AdminRoute>
+        ),
       },
-
+      {
+        path :"reservations",
+        element : <AdminRoute><Reservations></Reservations></AdminRoute>
+      },
 
       // User Routes
       {
@@ -102,10 +131,31 @@ export const router = createBrowserRouter([
             <UpdateProfile></UpdateProfile>
           </PrivateRoute>
         ),
-      },{
-        path : "payment",
-        element : <Payment></Payment>
-      }
+      },
+      {
+        path: "appointments",
+        element: (
+          <PrivateRoute>
+            <UpcomingAppointments></UpcomingAppointments>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "results",
+        element: (
+          <PrivateRoute>
+            <TestResult></TestResult>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "payment",
+        element: (
+          <PrivateRoute>
+            <Payment></Payment>
+          </PrivateRoute>
+        ),
+      },
     ],
   },
 ]);
