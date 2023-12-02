@@ -14,6 +14,9 @@ import AllTests from "../Pages/AllTests/AllTests";
 import UpdateItem from "../Components/UpdateItem/UpdateItem";
 import AddBanner from "../Pages/AddBanner/AddBanner";
 import AllBanners from "../Pages/AllBanners/AllBanners";
+import Tests from "../Pages/Tests/Tests";
+import TestDetails from "../Components/Test/TestDetails";
+import Payment from "../Components/Payment/Payment";
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +26,16 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
+        loader : ()=> fetch('http://localhost:5000/banners')
+      },
+      {
+        path : "/tests/:id",
+        element : <TestDetails></TestDetails>,
+        loader : ({params})=> fetch(`http://localhost:5000/tests/${params.id}`)
+      },
+      {
+        path : "/allTests",
+        element : <Tests></Tests>
       },
       {
         path: "/about",
@@ -89,7 +102,10 @@ export const router = createBrowserRouter([
             <UpdateProfile></UpdateProfile>
           </PrivateRoute>
         ),
-      },
+      },{
+        path : "payment",
+        element : <Payment></Payment>
+      }
     ],
   },
 ]);

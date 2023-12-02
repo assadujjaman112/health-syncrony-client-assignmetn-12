@@ -71,7 +71,7 @@ const AllTests = () => {
                   </div>
                 </td>
                 <td>{test.name}</td>
-                <td>{test?.reservation || 0}</td>
+                <td>{test?.reservations || 0}</td>
                 <td>
                   <Link to={`/dashboard/updateTest/${test._id}`}><button className="btn bg-gradient-to-r from-[#0e1a38] to-[#6b84bd] text-white mr-3">
                   <FaEdit className="text-lg"></FaEdit>
